@@ -19,12 +19,10 @@ RUN pip install --no-cache-dir \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend Python files (flat structure)
 COPY main.py ./backend/main.py
 COPY processing.py ./backend/processing.py
 COPY utils.py ./backend/utils.py
 
-# Copy frontend files (flat structure)
 COPY index.html ./frontend/index.html
 COPY app.js ./frontend/app.js
 COPY styles.css ./frontend/styles.css
@@ -35,4 +33,4 @@ RUN python -c "from demucs.pretrained import get_model; get_model('htdemucs')" |
 
 EXPOSE 8000
 
-CMD uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}
+CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
